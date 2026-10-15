@@ -224,7 +224,10 @@ function ActivePlan({ plan, reload }: { plan: DietPlan; reload: () => void }) {
           {plan.meals.map((m) => (
             <div key={m.id} className="dieta-meal">
               <div className="dieta-meal-head">
-                <div className="dieta-meal-name">{m.name}</div>
+                <div className="dieta-meal-name">
+                  {m.name}
+                  {m.share < 1 && <span className="tone-muted"> · alterna ({Math.round(m.share * 100)}% dos dias)</span>}
+                </div>
                 <button type="button" className="link-muted" aria-label={`Registrar o que comi no ${m.name.toLowerCase()}`} onClick={() => setDiaryMeal(m.id)}>
                   Registrar
                 </button>

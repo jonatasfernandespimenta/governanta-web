@@ -241,7 +241,8 @@ export type DietSlot = {
   note: string | null;
   options: DietOption[];
 };
-export type DietMeal = { id: string; position: number; name: string; slots: DietSlot[] };
+/** share: fraction of days for alternative meals ("Jantar" / "Jantar 2° opção" → 0.5 each). */
+export type DietMeal = { id: string; position: number; name: string; share: number; slots: DietSlot[] };
 export type DietLinkSuggestion = {
   rawName: string;
   status: "alias" | "exact" | "suggest" | "new";

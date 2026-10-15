@@ -346,7 +346,10 @@ function ChoicesStep({ plan, onChange, onSaved }: { plan: DietPlan; onChange: (p
     <div className="dieta-choices">
       {plan.meals.map((m) => (
         <div key={m.id} className="dieta-cmeal">
-          <Eyebrow className="dieta-cmeal-title">{m.name}</Eyebrow>
+          <Eyebrow className="dieta-cmeal-title">
+            {m.name}
+            {m.share < 1 ? ` · alterna (${Math.round(m.share * 100)}% dos dias)` : ""}
+          </Eyebrow>
           {m.slots.map((s) => (
             <SlotChoice key={s.id} slot={s} onSave={(sel, inc) => save(s, sel, inc)} />
           ))}
