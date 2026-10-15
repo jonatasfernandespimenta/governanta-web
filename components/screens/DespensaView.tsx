@@ -35,6 +35,7 @@ export function DespensaView() {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState<string | null>(null);
   const [gone, setGone] = useState<Set<string>>(new Set());
+  const [adding, setAdding] = useState(false);
 
   const forecast = new Map((fc.data ?? []).map((f) => [f.genericProductId, f]));
   const q = normalize(query);
@@ -80,7 +81,11 @@ export function DespensaView() {
           <Icon name="search" className="tone-subtle" />
           <input type="search" placeholder="Buscar produto ou marca" aria-label="Buscar produto ou marca" value={query} onChange={(e) => setQuery(e.target.value)} />
         </label>
+        <button type="button" className="circle" aria-label="Adicionar à despensa" aria-expanded={adding} onClick={() => setAdding(!adding)}>
+          <Icon name={adding ? "close" : "add"} size={26} />
+        </button>
       </div>
+      {adding && <AddForm onDone={() => setAdding(false)} />}
 
       {inv.data && inv.data.length === 0 ? (
         <EmptyState icon="kitchen" title="Nada registrado na despensa">
@@ -154,6 +159,38 @@ export function DespensaView() {
         </div>
       )}
     </div>
+  );
+}
+
+/** Compra registrada à mão: nome (produto novo ou existente), quantas embalagens e validade opcional. */
+function AddForm({ onDone }: { onDone: () => void }) {
+  const k = useKiosk();
+  const [name, setName] = useState("");
+  const [packages, setPackages] = useState("1");
+  const [expiresAt, setExpiresAt] = useState("");
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const n = Math.max(1, Math.round(Number(packages) || 1));
+    const ok = await k.write(() => api.purchase([{ freeText: name.trim(), packages: n, ...(expiresAt ? { expiresAt } : {}) }]));
+    if (!ok) return;
+    k.toast(`${capitalize(name.trim())} na despensa`);
+    onDone();
+  }
+  return (
+    <form className="desp-edit desp-add" onSubmit={submit}>
+      <input className="desp-select" required maxLength={100} placeholder="Produto (ex.: ketchup)" aria-label="Produto" value={name} onChange={(e) => setName(e.target.value)} />
+      <label className="desp-duration">
+        <input className="num" type="number" inputMode="numeric" min={1} max={99} aria-label="Quantas embalagens" value={packages} onChange={(e) => setPackages(e.target.value)} />
+        un
+      </label>
+      <label className="desp-duration">
+        Validade
+        <input className="desp-select" type="date" aria-label="Validade (opcional)" value={expiresAt} onChange={(e) => setExpiresAt(e.target.value)} />
+      </label>
+      <button type="submit" className="btn btn-primary btn-sm" disabled={!name.trim()}>
+        Adicionar
+      </button>
+    </form>
   );
 }
 

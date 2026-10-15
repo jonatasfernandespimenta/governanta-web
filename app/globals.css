@@ -4023,3 +4023,10 @@ section + section .compra-group {
     min-width: 0;
   }
 }
+
+.desp-add {
+  padding: 0 var(--gutter);
+}
+.desp-add > input {
+  flex: 1 1 calc(240 * var(--u));
+}

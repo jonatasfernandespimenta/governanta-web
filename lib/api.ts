@@ -484,6 +484,9 @@ export const api = {
 
   getProductPrices: (id: string, signal?: AbortSignal) => request<ProductPrices>(`/products/${enc(id)}/prices`, { signal }),
 
+  purchase: (items: { freeText: string; packages: number; expiresAt?: string }[]) =>
+    request<{ purchased: number }>("/purchases", { method: "POST", body: { items } }),
+
   getInventory: (signal?: AbortSignal) => request<{ items: InventoryItem[] }>("/inventory", { signal }).then((r) => r.items),
 
   getForecast: (signal?: AbortSignal) => request<{ items: ForecastItem[] }>("/forecast", { signal }).then((r) => r.items),
