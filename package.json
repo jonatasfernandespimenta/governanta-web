@@ -1,0 +1,31 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3100",
+    "build": "next build",
+    "start": "next start -p 3100",
+    "lint": "eslint",
+    "postinstall": "node lib/voice/scripts/vendor.mjs",
+    "voice:vendor": "node lib/voice/scripts/vendor.mjs",
+    "test:voice": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test lib/voice/test/*.test.mjs"
+  },
+  "dependencies": {
+    "jsqr": "1.4.0",
+    "material-symbols": "0.31.0",
+    "next": "16.4.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "@huggingface/transformers": "4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.1",
+    "typescript": "^5"
+  },
+  "packageManager": "pnpm@10.12.1"
+}
