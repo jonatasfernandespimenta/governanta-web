@@ -4030,3 +4030,6 @@ section + section .compra-group {
 .desp-add > input {
   flex: 1 1 calc(240 * var(--u));
 }
+.desp-add input[type="date"] {
+  width: calc(190 * var(--u));
+}
